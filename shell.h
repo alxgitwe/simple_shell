@@ -35,6 +35,70 @@
 #define USE_STRTOK 0
 
 
+extern char **environ;
+
+/**
+ *struct pinfot - struct
+ * @argmt: arg
+ * @argv: arg
+ * @pth: arg
+ * @argcmt: arg
+ * @lncount: arg
+ * @ernm: arg
+ * @lncntf: arg
+ * @fnme: arg
+ * @envr: arg
+ * @envrn: arg
+ * @hty: arg
+ * @als: arg
+ * @envcd: arg
+ * @st: arg
+ * @cmbuffer: arg
+ * @cmbuffertye: arg
+ * @rdfd: arg
+ * @hstcnt: arg
+ */
+typedef struct pinfot
+{
+	char *argmt;
+	char **argv;
+	char *pth;
+	int argcmt;
+	unsigned int lncount;
+	int ernm;
+	int lncntf;
+	char *fnme;
+	listst *envr;
+	listst *hty;
+	listst *als;
+	char **envrn;
+	int envcd;
+	int st;
+	char **cmbuffer;
+	int cmbuffertye;
+	int rdfd;
+	int hstcnt;
+
+
+} infot;
+#define INFO_INIT \
+{NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
+	0, 0, 0}
+
+/**
+ * struct lists - singlylinkedlist
+ * @a: int
+ * @s: char
+ * @next: next nod pointer
+ */
+
+typedef struct lists
+{
+	int a;
+	char *s;
+	struct liststr *next;
+} listst;
+
 /**
  *struct builtin - contains a builtin string and related function
  *@func: function
@@ -67,7 +131,73 @@ char *strcher(char *, char);
 char *strcopyn(char *, char *, int);
 char *strcatn(char *, char *, int);
 
+/* memo_f.c */
+char *fillmemoset(char *, char, unsigned int);
+int freep(void **);
+void reallocat(void *, unsigned int, unsigned int);
+void freestring(char **);
 
+/* functionsx1.c */
+int alpha(int);
+int at_oi(char *);
+int err_atoi(char  *);
+int delimt(char, char *);
+int itrtive(info_t *);
+
+
+/* functionsx2.c */
+void prterror(info_t *, char *);
+int prtdi(int, int);
+void rmcmt(char *);
+char *cvrtnmbr(long int, int, int);
+
+/* functionsx1.c */
+int alpha(int);
+int at_oi(char *);
+int err_atoi(char  *);
+int delimt(char, char *);
+int itrtive(infot *);
+
+
+/* functionsx2.c */
+void prterror(infot *, char *);
+int prtdi(int, int);
+void rmcmt(char *);
+char *cvrtnmbr(long int, int, int);
+
+
+/* lists1.c */
+size_t llnt(const listst *);
+ssize_t gndindex(listst *, listst *);
+listst *ndstrt(listst *, char *, char);
+size_t plst(const listst *);
+char **litstr(listst *);
+
+/* lists2.c */
+listst *addnd(listst **, const char *, int);
+void frlst(listst **);
+int dlindeno(listst **, unsigned int);
+size_t prlis(const listst *);
+listst *addnend(listst **, const char *, int);
+
+/* erfnc.c */
+void erpts(char *);
+int ptfdsptr(char, int);
+int putsdsptr(char *, int);
+int erptchr(char);
+
+
+/* infoget.c module */
+void infoclr(infot *);
+void infofree(infot *, int);
+void infost(infot *, char **);
+
+/* envir2.c module */
+char *envirget(info_t *, const char *);
+int menvirust(info_t *);
+int lipolenv(infot *);
+int menvirst(info_t *);
+int envir(info_t *);
 
 
 

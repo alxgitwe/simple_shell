@@ -3,8 +3,8 @@
 
 
 /**
- * putchar - function
- * @s: 
+ * _putchar - function
+ * @s: char
  *
  * Return: return
  */
@@ -12,15 +12,15 @@
 int _putchar(char s)
 {
 	static char buffer[WRITE_BUF_SIZE];
-	
+
 	static int a;
-	
+
 	if (a >= WRITE_BUF_SIZE || s == BUF_FLUSH)
 	{
 		write(1, buffer, a);
 		a = 0;
 	}
-	
+
 	if (!(s == BUF_FLUSH))
 	{
 		buffer[a++] = s;
@@ -55,7 +55,7 @@ void _puts(char *s)
  * Return: return
  */
 
-char *strdupl(const char *)
+char *strdupl(const char *s)
 {
 	char *str;
 	int a = 0;
@@ -104,7 +104,7 @@ char *strcopy(char *str1, char *str2)
 char strlen(char *str)
 {
 	int a;
-	
+
 	a = 0;
 
 	if (!str)
