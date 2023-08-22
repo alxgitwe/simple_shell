@@ -199,8 +199,17 @@ int lipolenv(infot *);
 int menvirst(info_t *);
 int envir(info_t *);
 
+/* envir.c module */
+char **envget(info_t *);
+int envst(info_t *, char *, char *);
+int envust(info_t *, char *);
 
-
+/* fnhst.c */
+char *hstflgt(infot *info);
+int hstlstb(infot *a, char *b, int c);
+int hstwt(infot *a);
+int hstrnbr(infot *a);
+int hstrd(infot *a);
 
 #endif
 
