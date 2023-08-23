@@ -216,5 +216,15 @@ int hstwt(infot *a);
 int hstrnbr(infot *a);
 int hstrd(infot *a);
 
+/* chn.c */
+int ischn(infot *, char *, size_t *);
+void chkch(infot *, char *, size_t *, size_t, size_t);
+int aliasrplc(infot *);
+int varsrplc(infot *);
+int strplc(char **, char *);
+
+/* hashx1.c */
+int hsh(infot *, char **);
+
 #endif
 
