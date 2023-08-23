@@ -9,13 +9,13 @@
  */
 void prterror(infot *a, char *b)
 {
-	erputs(a->fnme);
-	erputs(": ");
+	erpts(a->fnme);
+	erpts(": ");
 	prtdi(a->lncount, STDERR_FILENO);
-	erputs(": ");
-	erputs(a->argv[0]);
-	erputs(": ");
-	erputs(b);
+	erpts(": ");
+	erpts(a->argv[0]);
+	erpts(": ");
+	erpts(b);
 }
 
 /**
@@ -34,7 +34,7 @@ int prtdi(int a, int b)
 	int j = 0;
 
 	if (b == STDERR_FILENO)
-		ptchr = eptchr;
+		ptchr = erptchr;
 	if (a < 0)
 	{
 		c = -a;

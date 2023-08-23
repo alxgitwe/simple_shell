@@ -65,7 +65,7 @@ int err_atoi(char  *a)
 	c = 0;
 
 	if (*a == '+')
-		s++;
+		a++;
 	for (c = 0; a[c] != '\0'; c++)
 	{
 		if (a[c] <= '9' && a[c] >= '0')
@@ -89,7 +89,7 @@ int err_atoi(char  *a)
  * Return: return
  */
 
-int delimt(char a, char *b);
+int delimt(char a, char *b)
 {
 	while (*b)
 		if (*b++ == a)

@@ -28,9 +28,9 @@ int main(int ac, char **av)
 				exit(126);
 			if (errno == ENOENT)
 			{
-				erputs(av[0]);
-				erputs(": 0: Can't open ");
-				erputs(av[1]);
+				erpts(av[0]);
+				erpts(": 0: Can't open ");
+				erpts(av[1]);
 				erptchr('\n');
 				erptchr(BUF_FLUSH);
 				exit(127);
@@ -40,7 +40,7 @@ int main(int ac, char **av)
 		a->rdfd = b;
 	}
 	lipolenv(a);
-	historead(a);
+	hstrd(a);
 	hsh(a, av);
 	return (EXIT_SUCCESS);
 }

@@ -107,7 +107,7 @@ char **litstr(listst *a)
 		return (NULL);
 	for (c = 0; b; b = b->next, c++)
 	{
-		e = malloc(strlen(b->e) + 1);
+		e = malloc(strlen(b->s) + 1);
 		if (!e)
 		{
 			for (j = 0; j < c; j++)

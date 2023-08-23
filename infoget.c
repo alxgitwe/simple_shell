@@ -65,7 +65,7 @@ void infost(infot *a, char **av)
 	a->fnme = av[0];
 	if (a->argmt)
 	{
-		a->argv = strtow(a->argmt, " \t");
+		a->argv = strw(a->argmt, " \t");
 		if (!a->argv)
 		{
 			a->argv = malloc(sizeof(char *) * 2);

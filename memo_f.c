@@ -1,4 +1,5 @@
-include "shell.h"
+#include "shell.h"
+
 
 /**
  * fillmemoset - function
@@ -42,7 +43,7 @@ int freep(void **a)
  *
  * Return: return
  */
-void reallocat(void *a, unsigned int b, unsigned int c)
+void *reallocat(void *a, unsigned int b, unsigned int c)
 {
 	char *d;
 

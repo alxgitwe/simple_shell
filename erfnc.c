@@ -14,7 +14,7 @@ void erpts(char *a)
 		return;
 	while (a[b] != '\0')
 	{
-		_eputchar(a[b]);
+		erptchr(a[b]);
 		b++;
 	}
 }

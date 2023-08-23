@@ -43,7 +43,7 @@ void _puts(char *s)
 		return;
 	while (s[a] != '\0')
 	{
-		_putchar([a]);
+		_putchar(s[a]);
 		a++;
 	}
 }
@@ -101,7 +101,7 @@ char *strcopy(char *str1, char *str2)
  *
  * Return: return
  */
-char strlen(char *str)
+char strln(char *str)
 {
 	int a;
 

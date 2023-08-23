@@ -137,7 +137,7 @@ listst *addnend(listst **a, const char *b, int c)
 	if (!d)
 		return (NULL);
 	fillmemoset((void *)d, 0, sizeof(listst));
-	d->a = c
+	d->a = c;
 	if (b)
 	{
 		d->s = strdupl(b);

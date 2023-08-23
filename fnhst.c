@@ -37,7 +37,7 @@ int hstlstb(infot *a, char *b, int c)
 
 	if (a->hty)
 		d = a->hty;
-	add_node_end(&d, b, c);
+	addnend(&d, b, c);
 
 	if (!a->hty)
 		a->hty = d;

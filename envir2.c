@@ -6,14 +6,14 @@
  * @b: char
  * Return: return
  */
-char *envirget(info_t *a, const char *b)
+char *envirget(infot *a, const char *b)
 {
 	char *c;
-	listst *d = a->env;
+	listst *d = a->envr;
 
 	while (d)
 	{
-		c = startwith(d->str, b);
+		c = startwith(d->s, b);
 		if (c && *c)
 			return (c);
 		d = d->next;
@@ -28,7 +28,7 @@ char *envirget(info_t *a, const char *b)
  *
  * Return: return
  */
-int menvirust(info_t *a)
+int menvirust(infot *a)
 {
 	int b;
 
@@ -38,7 +38,7 @@ int menvirust(info_t *a)
 		return (1);
 	}
 	for (b = 1; b <= a->argcmt; b++)
-		envirust(a, a->argv[b]);
+		envust(a, a->argv[b]);
 
 	return (0);
 }
@@ -55,7 +55,7 @@ int lipolenv(infot *a)
 	listst *b = NULL;
 
 	for (c = 0; environ[c]; c++)
-		add_node_end(&b, environ[c], 0);
+		addnend(&b, environ[c], 0);
 	a->envr = b;
 	return (0);
 }
@@ -67,14 +67,14 @@ int lipolenv(infot *a)
  *
  * Return: return
  */
-int menvirst(info_t *a)
+int menvirst(infot *a)
 {
 	if (a->argcmt != 3)
 	{
 		erpts("Incorrect number of arguements\n");
 		return (1);
 	}
-	if (envirst(a, a->argv[1], a->argv[2]))
+	if (envst(a, a->argv[1], a->argv[2]))
 		return (0);
 	return (1);
 }
@@ -87,7 +87,7 @@ int menvirst(info_t *a)
  *
  * Return: return
  */
-int menvir(info_t *a)
+int menvir(infot *a)
 {
 	prlis(a->envr);
 	return (0);

@@ -10,7 +10,7 @@ char **envget(infot *a)
 {
 	if (!a->envrn || a->envcd)
 	{
-		a->envrn = litstr(a->env);
+		a->envrn = litstr(a->envr);
 		a->envcd = 0;
 	}
 
@@ -41,10 +41,10 @@ int envst(infot *a, char *b, char *c)
 	strcopy(buffer, b);
 	strcat(buffer, "=");
 	strcat(buffer, c);
-	d = a->env;
+	d = a->envr;
 	while (d)
 	{
-		e = startwithd->s, b);
+		e = startwith(d->s, b);
 		if (e && *e == '=')
 		{
 			free(d->s);
@@ -54,7 +54,7 @@ int envst(infot *a, char *b, char *c)
 		}
 		d = d->next;
 	}
-	addnend(&(a->env), buffer, 0);
+	addnend(&(a->envr), buffer, 0);
 	free(buffer);
 	a->envcd = 1;
 	return (0);
@@ -75,7 +75,7 @@ int envust(infot *a, char *b)
 {
 
 	size_t e = 0;
-	listst *c = a->env;
+	listst *c = a->envr;
 	char *d;
 
 	if (!c || !b)
@@ -86,9 +86,9 @@ int envust(infot *a, char *b)
 		d = startwith(c->s, b);
 		if (d && *d == '=')
 		{
-			a->envcd = dlindeno(&(a->env), e);
+			a->envcd = dlindeno(&(a->envr), e);
 			e = 0;
-			c = a->env;
+			c = a->envr;
 			continue;
 		}
 		c = c->next;

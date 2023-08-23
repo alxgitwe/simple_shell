@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <limits.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -36,6 +37,23 @@
 
 
 extern char **environ;
+
+
+/**
+ * struct lists - singlylinkedlist
+ * @a: int
+ * @s: char
+ * @next: next nod pointer
+ */
+
+typedef struct lists
+{
+        int a;
+        char *s;
+        struct lists *next;
+} listst;
+
+
 
 /**
  *struct pinfot - struct
@@ -85,19 +103,6 @@ typedef struct pinfot
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0}
 
-/**
- * struct lists - singlylinkedlist
- * @a: int
- * @s: char
- * @next: next nod pointer
- */
-
-typedef struct lists
-{
-	int a;
-	char *s;
-	struct liststr *next;
-} listst;
 
 /**
  *struct builtin - contains a builtin string and related function
@@ -107,7 +112,7 @@ typedef struct lists
  */
 typedef struct builtin
 {
-	int (*func)(info_t *);
+	int (*func)(infot *);
 	char *type;
 } builtin_t;
 
@@ -117,14 +122,14 @@ int _putchar(char);
 void _puts(char *);
 char *strdupl(const char *);
 char *strcopy(char *, char *);
-char strlen(char *);
+char strln(char *);
 
 /* string_f2.c */
 char *startwith(const char *, const char *);
 int strcomp(char *, char *);
-char *strcat(char *, char *);
-char strw(char *, char *);
-char strw2(char *, char);
+char *strct(char *, char *);
+char **strw(char *, char *);
+char **strw2(char *, char);
 
 /* string_f3.c */
 char *strcher(char *, char);
@@ -134,7 +139,7 @@ char *strcatn(char *, char *, int);
 /* memo_f.c */
 char *fillmemoset(char *, char, unsigned int);
 int freep(void **);
-void reallocat(void *, unsigned int, unsigned int);
+void *reallocat(void *, unsigned int, unsigned int);
 void freestring(char **);
 
 /* functionsx1.c */
@@ -142,11 +147,11 @@ int alpha(int);
 int at_oi(char *);
 int err_atoi(char  *);
 int delimt(char, char *);
-int itrtive(info_t *);
+int itrtive(infot *);
 
 
 /* functionsx2.c */
-void prterror(info_t *, char *);
+void prterror(infot *, char *);
 int prtdi(int, int);
 void rmcmt(char *);
 char *cvrtnmbr(long int, int, int);
@@ -193,16 +198,16 @@ void infofree(infot *, int);
 void infost(infot *, char **);
 
 /* envir2.c module */
-char *envirget(info_t *, const char *);
-int menvirust(info_t *);
+char *envirget(infot *, const char *);
+int menvirust(infot *);
 int lipolenv(infot *);
-int menvirst(info_t *);
-int envir(info_t *);
+int menvirst(infot *);
+int envir(infot *);
 
 /* envir.c module */
-char **envget(info_t *);
-int envst(info_t *, char *, char *);
-int envust(info_t *, char *);
+char **envget(infot *);
+int envst(infot *, char *, char *);
+int envust(infot *, char *);
 
 /* fnhst.c */
 char *hstflgt(infot *info);

@@ -44,7 +44,7 @@ int strcomp(char *str1, char *str2)
  * @str2 :char
  * Return: return
  */
-char *strcat(char *str1, char *str2)
+char *strct(char *str1, char *str2)
 {
 	char *str = str1;
 
@@ -65,7 +65,7 @@ char *strcat(char *str1, char *str2)
  *
  * Return: return
  */
-char strw(char *a, char *b)
+char **strw(char *a, char *b)
 {
 	char **k;
 	int c;
@@ -79,7 +79,7 @@ char strw(char *a, char *b)
 	if (!b)
 		b = " ";
 	for (c = 0; a[c] != '\0'; c++)
-		if ((is_delim(a[c + 1], b) && !is_delim(a[c], b) || !a[c + 1]))
+		if (!delimt(a[c], b) && (delimt(a[c + 1], b) || !a[c + 1]))	
 			h++;
 	if (h == 0)
 		return (NULL);
@@ -88,10 +88,10 @@ char strw(char *a, char *b)
 		return (NULL);
 	for (c = 0, d = 0; d < h; d++)
 	{
-		while  (is_delim(a[c], b))
+		while  (delimt(a[c], b))
 			c++;
 		e = 0;
-		while (a[c + e] && !is_delim(str(a[c + e], b)))
+		while (a[c + e] && (!delimt(a[c + e], b)))
 			e++;
 		k[d] = malloc(sizeof(char) * (e + 1));
 		if (!k[d])
@@ -115,7 +115,7 @@ char strw(char *a, char *b)
  *
  * Return: return
  */
-char strw2(char *a, char b)
+char **strw2(char *a, char b)
 {
 	char **k;
 	int c;
