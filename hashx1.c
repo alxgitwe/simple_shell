@@ -8,9 +8,11 @@
  */
 int hsh(infot *a, char **av)
 {
-	ssize_t b = 0;
-	int c = 0;
+	free(a);
+	free(av);
+	
 
+/*
 	while (b != -1 && c != -2)
 	{
 		infoclr(a);
@@ -41,6 +43,7 @@ int hsh(infot *a, char **av)
 		if (a->ernm == -1)
 			exit(a->st);
 		exit(a->ernm);
-	}
-	return (c);
+	}*/
+	return (1);
+
 }
