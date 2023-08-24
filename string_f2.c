@@ -39,7 +39,7 @@ int strcomp(char *str1, char *str2)
 }
 
 /**
- * strcat - function
+ * strct - function
  * @str1: char
  * @str2 :char
  * Return: return
@@ -79,7 +79,7 @@ char **strw(char *a, char *b)
 	if (!b)
 		b = " ";
 	for (c = 0; a[c] != '\0'; c++)
-		if (!delimt(a[c], b) && (delimt(a[c + 1], b) || !a[c + 1]))	
+		if (!delimt(a[c], b) && (delimt(a[c + 1], b) || !a[c + 1]))
 			h++;
 	if (h == 0)
 		return (NULL);

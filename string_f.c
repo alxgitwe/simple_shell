@@ -96,7 +96,7 @@ char *strcopy(char *str1, char *str2)
 }
 
 /**
- * strlen - functioon
+ * strln - functioon
  * @str: char
  *
  * Return: return
