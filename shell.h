@@ -1,231 +1,181 @@
 #ifndef SHELL_H
 #define SHELL_H
-#include <stdlib.h>
-#include <string.h>
+
 #include <stdio.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 #include <limits.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
-#include <sys/types.h>
-
-/* chaining */
-
-#define CMD_NORM	0
-#define CMD_OR		1
-#define CMD_CHAIN       3
-#define CMD_AND		2
-
-/* cvrt nmbr */
-#define CONVERT_LOWERCASE	1
-#define CONVERT_UNSIGNED	2
-
-
-/* buffers */
-#define BUF_FLUSH -1
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 #define READ_BUF_SIZE 1024
 #define WRITE_BUF_SIZE 1024
-
-/* getlinge */
-#define HIST_FILE	".hsh_history"
-#define HIST_MAX	4096
-#define USE_GETLINE 0
+#define BUF_FLUSH -1
+#define CMD_OR		1
+#define CMD_AND		2
+#define CMD_NORM	0
+#define CONVERT_LOWERCASE	1
+#define CONVERT_UNSIGNED	2
+#define USElinegt 0
 #define USE_STRTOK 0
-
+#define CMD_CHAIN	3
+#define HIST_FILE	".shell_history"
+#define HIST_MAX	4096
 
 extern char **environ;
 
-
 /**
- * struct lists - singlylinkedlist
- * @a: int
- * @s: char
- * @next: next nod pointer
+ * struct liststr - struct
+ * @n: n
+ * @s: s
+ * @next: next
  */
-
-typedef struct lists
+typedef struct liststr
 {
-	int a;
+	int n;
 	char *s;
-	struct lists *next;
+	struct liststr *next;
 } listst;
 
-
-
 /**
- *struct pinfot - struct
- * @argmt: arg
- * @argv: arg
- * @pth: arg
- * @argcmt: arg
- * @lncount: arg
- * @ernm: arg
- * @lncntf: arg
- * @fnme: arg
- * @envr: arg
- * @envrn: arg
- * @hty: arg
- * @als: arg
- * @envcd: arg
- * @st: arg
- * @cmbuffer: arg
- * @cmbuffertye: arg
- * @rdfd: arg
- * @hstcnt: arg
+ *struct infpass - struct
+ *@arg: arg
+ *@argv: argv
+ *@pth: pth
+ *@argc: argc
+ *@lncnt: lncnt
+ *@nmerr: nmerr
+ *@flglncnt: flglncnt
+ *@namefile: namefile
+ *@envir: envir
+ *@envrn: envrn
+ *@hsty: hsty
+ *@als: als
+ *@chenv: chenv
+ *@sttus: sttus
+ *@buffercmd: buffercmd
+ *@typebuffercmd: typebuffercmd
+ *@rdfd: rdfd
+ *@hstcnt: hstcnt
  */
-typedef struct pinfot
+typedef struct infpass
 {
-	char *argmt;
+	char *arg;
 	char **argv;
 	char *pth;
-	int argcmt;
-	unsigned int lncount;
-	int ernm;
-	int lncntf;
-	char *fnme;
-	listst *envr;
-	listst *hty;
+	int argc;
+	unsigned int lncnt;
+	int nmerr;
+	int flglncnt;
+	char *namefile;
+	listst *envir;
+	listst *hsty;
 	listst *als;
 	char **envrn;
-	int envcd;
-	int st;
-	char **cmbuffer;
-	int cmbuffertye;
+	int chenv;
+	int sttus;
+	char **buffercmd;
+	int typebuffercmd;
 	int rdfd;
 	int hstcnt;
-
-
 } infot;
+
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \
 	0, 0, 0}
 
-
 /**
- *struct builtin - contains a builtin string and related function
- *@func: function
- *@type: char
- *@func: the function
+ *struct bltn - function
+ *@tyype: tyype
+ *@func: func
  */
-typedef struct builtin
+typedef struct bltn
 {
+	char *tyype;
 	int (*func)(infot *);
-	char *type;
-} builtin_t;
+} tablebltn;
 
 
-/* string_f.c */
-int _putchar(char);
-void _puts(char *);
-char *strdupl(const char *);
-char *strcopy(char *, char *);
-char strln(char *);
-
-/* string_f2.c */
-char *startwith(const char *, const char *);
-int strcomp(char *, char *);
-char *strct(char *, char *);
-char **strw(char *, char *);
-char **strw2(char *, char);
-
-/* string_f3.c */
-char *strcher(char *, char);
-char *strcopyn(char *, char *, int);
-char *strcatn(char *, char *, int);
-
-/* memo_f.c */
-char *fillmemoset(char *, char, unsigned int);
-int freep(void **);
-void *reallocat(void *, unsigned int, unsigned int);
-void freestring(char **);
-
-/* functionsx1.c */
-int alpha(int);
-int at_oi(char *);
-int err_atoi(char  *);
-int delimt(char, char *);
-int itrtive(infot *);
-
-
-/* functionsx2.c */
-void prterror(infot *, char *);
-int prtdi(int, int);
-void rmcmt(char *);
-char *cvrtnmbr(long int, int, int);
-
-/* functionsx1.c */
-int alpha(int);
-int at_oi(char *);
-int err_atoi(char  *);
-int delimt(char, char *);
-int itrtive(infot *);
-
-
-/* functionsx2.c */
-void prterror(infot *, char *);
-int prtdi(int, int);
-void rmcmt(char *);
-char *cvrtnmbr(long int, int, int);
-
-
-/* lists1.c */
-size_t llnt(const listst *);
-ssize_t gndindex(listst *, listst *);
-listst *ndstrt(listst *, char *, char);
-size_t plst(const listst *);
-char **litstr(listst *);
-
-/* lists2.c */
-listst *addnd(listst **, const char *, int);
-void frlst(listst **);
-int dlindeno(listst **, unsigned int);
-size_t prlis(const listst *);
-listst *addnend(listst **, const char *, int);
-
-/* erfnc.c */
-void erpts(char *);
-int ptfdsptr(char, int);
-int putsdsptr(char *, int);
-int erptchr(char);
-
-
-/* infoget.c module */
-void infoclr(infot *);
-void infofree(infot *, int);
-void infost(infot *, char **);
-
-/* envir2.c module */
-char *envirget(infot *, const char *);
-int menvirust(infot *);
-int lipolenv(infot *);
-int menvirst(infot *);
-int envir(infot *);
-
-/* envir.c module */
-char **envget(infot *);
-int envst(infot *, char *, char *);
-int envust(infot *, char *);
-
-/* fnhst.c */
-char *hstflgt(infot *info);
-int hstlstb(infot *a, char *b, int c);
-int hstwt(infot *a);
-int hstrnbr(infot *a);
-int hstrd(infot *a);
-
-/* chn.c */
-int ischn(infot *, char *, size_t *);
-void chkch(infot *, char *, size_t *, size_t, size_t);
-int aliasrplc(infot *);
-int varsrplc(infot *);
-int strplc(char **, char *);
-
-/* hashx1.c */
 int hsh(infot *, char **);
+int builtnfnd(infot *);
+void cmdfnd(infot *);
+void cmdfrk(infot *);
+int cmdis(infot *, char *);
+char *charsdupl(char *, int, int);
+char *pthfnd(infot *, char *, char *);
+int hsshloop(char **);
+void errputs(char *);
+int errputchar(char);
+int fdput(char c, int fd);
+int _putsfd(char *str, int fd);
+int lnstr(char *);
+int comparstr(char *, char *);
+char *strtwth(const char *, const char *);
+char *catstr(char *, char *);
+char *cpystr(char *, char *);
+char *duplstr(const char *);
+void _puts(char *);
+int _putchar(char);
+char *strn_cpy(char *, char *, int);
+char *strn_cat(char *, char *, int);
+char *str_chr(char *, char);
+char **strtw(char *, char *);
+char **strtow2(char *, char);
+char *stmem(char *, char, unsigned int);
+void ffre(char **);
+void *rloct(void *, unsigned int, unsigned int);
+int bfr(void **);
+int itractv(infot *);
+int isdlm(char, char *);
+int isaplph(int);
+int atoii(char *);
+int erratoii(char *);
+void errprnt(infot *, char *);
+int print_d(int, int);
+char *nbrconv(long int, int, int);
+void rmvcmnt(char *);
+int mext(infot *);
+int mchd(infot *);
+int mhlp(infot *);
+int mhsty(infot *);
+int alsmy(infot *);
+ssize_t gtinpt(infot *);
+int linegt(infot *, char **, size_t *);
+void hndlrsnt(int);
+void clrinf(infot *);
+void infset(infot *, char **);
+void inffr(infot *, int);
+char *gtenvir(infot *, const char *);
+int menvr(infot *);
+int mstenvir(infot *);
+int mustenvir(infot *);
+int ppenvirlst(infot *);
+char **envirget(infot *);
+int ustenvrn(infot *, char *);
+int stenvrn(infot *, char *, char *);
+char *gthistfl(infot *info);
+int hstwrt(infot *info);
+int hstrd(infot *info);
+int bldhistlst(infot *info, char *buf, int linecount);
+int hstrnbr(infot *info);
+listst *ndadd(listst **, const char *, int);
+listst *ndaddend(listst **, const char *, int);
+size_t strprtlst(const listst *);
+int indxnddl(listst **, unsigned int);
+void lstfr(listst **);
+size_t lenlst(const listst *);
+char **strlstto(listst *);
+size_t lstprt(const listst *);
+listst *ndstrtw(listst *, char *, char);
+ssize_t indxndgt(listst *, listst *);
+int chnis(infot *, char *, size_t *);
+void chnchk(infot *, char *, size_t *, size_t, size_t);
+int alsrplc(infot *);
+int vrsrplc(infot *);
+int rplcstrn(char **, char *);
 
 #endif
-
 
