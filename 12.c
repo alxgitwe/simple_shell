@@ -23,7 +23,7 @@ int chnis(infot *a, char *b, size_t *c)
 		d++;
 		a->typebuffercmd = CMD_AND;
 	}
-	else if (b[d] == ';') 
+	else if (b[d] == ';')
 	{
 		b[d] = 0;
 		a->typebuffercmd = CMD_CHAIN;

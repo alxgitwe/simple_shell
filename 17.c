@@ -59,8 +59,8 @@ ssize_t gtinpt(infot *a)
 		return (-1);
 	if (e)
 	{
-		d = c; 
-		p = b + c; 
+		d = c;
+		p = b + c;
 
 		chnchk(a, b, &d, c, e);
 		while (d < e)
