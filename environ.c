@@ -1,93 +1,88 @@
 #include "shell.h"
 
 /**
- * menvr - prints the current environment
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- * Return: Always 0
+ * menvr - function
+ * @a: a
+ * Return: return
  */
-int menvr(infot *info)
+int menvr(infot *a)
 {
-	strprtlst(info->envir);
+	strprtlst(a->envir);
 	return (0);
 }
 
 /**
- * gtenvir - gets the value of an environ variable
- * @info: Structure containing potential arguments. Used to maintain
- * @name: env var name
- *
- * Return: the value
+ * gtenvir - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-char *gtenvir(infot *info, const char *name)
+char *gtenvir(infot *a, const char *b)
 {
-	listst *node = info->envir;
-	char *p;
+	listst *c = a->envir;
+	char *d;
 
-	while (node)
+	while (c)
 	{
-		p = strtwth(node->s, name);
-		if (p && *p)
-			return (p);
-		node = node->next;
+		d = strtwth(c->s, b);
+		if (d && *d)
+			return (d);
+		c = c->next;
 	}
 	return (NULL);
 }
 
 /**
- * mstenvir - Initialize a new environment variable,
- *             or modify an existing one
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- *  Return: Always 0
+ * mstenvir - function
+ * @a: a
+ *  Return: return
  */
-int mstenvir(infot *info)
+int mstenvir(infot *a)
 {
-	if (info->argc != 3)
+	if (a->argc != 3)
 	{
 		errputs("Incorrect number of arguements\n");
 		return (1);
 	}
-	if (stenvrn(info, info->argv[1], info->argv[2]))
+	if (stenvrn(a, a->argv[1], a->argv[2]))
 		return (0);
 	return (1);
 }
 
 /**
- * mustenvir - Remove an environment variable
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- *  Return: Always 0
+ * mustenvir - function
+ * @a: a
+ *  Return: return
  */
-int mustenvir(infot *info)
+int mustenvir(infot *a)
 {
-	int i;
+	int b;
 
-	if (info->argc == 1)
+	if (a->argc == 1)
 	{
 		errputs("Too few arguements.\n");
 		return (1);
 	}
-	for (i = 1; i <= info->argc; i++)
-		ustenvrn(info, info->argv[i]);
+	for (b = 1; b <= a->argc; b++)
+		ustenvrn(a, a->argv[b]);
 
 	return (0);
 }
 
 /**
- * ppenvirlst - populates env linked list
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- * Return: Always 0
+ * ppenvirlst - function
+ * @a: a
+ * Return: return
  */
-int ppenvirlst(infot *info)
+int ppenvirlst(infot *a)
 {
-	listst *node = NULL;
-	size_t i;
+	listst *b = NULL;
+	size_t c;
 
-	for (i = 0; environ[i]; i++)
-		ndaddend(&node, environ[i], 0);
-	info->envir = node;
+	for (c = 0; environ[c]; c++)
+		ndaddend(&b, environ[c], 0);
+	a->envir = b;
 	return (0);
 }
+
 

@@ -1,160 +1,156 @@
 #include "shell.h"
 
 /**
- * ndadd - adds a node to the start of the list
- * @head: address of pointer to head node
- * @str: str field of node
- * @num: node index used by history
- *
- * Return: size of list
+ * ndadd - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-listst *ndadd(listst **head, const char *str, int num)
+listst *ndadd(listst **a, const char *b, int c)
 {
-	listst *new_head;
+	listst *d;
 
-	if (!head)
+	if (!a)
 		return (NULL);
-	new_head = malloc(sizeof(listst));
-	if (!new_head)
+	d = malloc(sizeof(listst));
+	if (!d)
 		return (NULL);
-	stmem((void *)new_head, 0, sizeof(listst));
-	new_head->n = num;
-	if (str)
+	stmem((void *)d, 0, sizeof(listst));
+	d->n = c;
+	if (b)
 	{
-		new_head->s = duplstr(str);
-		if (!new_head->s)
+		d->s = duplstr(b);
+		if (!d->s)
 		{
-			free(new_head);
+			free(d);
 			return (NULL);
 		}
 	}
-	new_head->next = *head;
-	*head = new_head;
-	return (new_head);
+	d->next = *a;
+	*a = d;
+	return (d);
 }
 
 /**
- * ndaddend - adds a node to the end of the list
- * @head: address of pointer to head node
- * @str: str field of node
- * @num: node index used by history
- *
- * Return: size of list
+ * ndaddend - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-listst *ndaddend(listst **head, const char *str, int num)
+listst *ndaddend(listst **a, const char *b, int c)
 {
-	listst *new_node, *node;
+	listst *d, *e;
 
-	if (!head)
+	if (!a)
 		return (NULL);
 
-	node = *head;
-	new_node = malloc(sizeof(listst));
-	if (!new_node)
+	e = *a;
+	d = malloc(sizeof(listst));
+	if (!d)
 		return (NULL);
-	stmem((void *)new_node, 0, sizeof(listst));
-	new_node->n = num;
-	if (str)
+	stmem((void *)d, 0, sizeof(listst));
+	d->n = c;
+	if (b)
 	{
-		new_node->s = duplstr(str);
-		if (!new_node->s)
+		d->s = duplstr(b);
+		if (!d->s)
 		{
-			free(new_node);
+			free(d);
 			return (NULL);
 		}
 	}
-	if (node)
+	if (e)
 	{
-		while (node->next)
-			node = node->next;
-		node->next = new_node;
+		while (e->next)
+			e = e->next;
+		e->next = d;
 	}
 	else
-		*head = new_node;
-	return (new_node);
+		*a = d;
+	return (d);
 }
 
 /**
- * strprtlst - prints only the str element of a listst linked list
- * @h: pointer to first node
- *
- * Return: size of list
+ * strprtlst - function
+ * @a: a
+ * Return: return
  */
-size_t strprtlst(const listst *h)
+size_t strprtlst(const listst *a)
 {
-	size_t i = 0;
+	size_t b = 0;
 
-	while (h)
+	while (a)
 	{
-		_puts(h->s ? h->s : "(nil)");
+		_puts(a->s ? a->s : "(nil)");
 		_puts("\n");
-		h = h->next;
-		i++;
+		a = a->next;
+		b++;
 	}
-	return (i);
+	return (b);
 }
 
 /**
- * indxnddl - deletes node at given index
- * @head: address of pointer to first node
- * @index: index of node to delete
- *
- * Return: 1 on success, 0 on failure
+ * indxnddl - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-int indxnddl(listst **head, unsigned int index)
+int indxnddl(listst **a, unsigned int b)
 {
-	listst *node, *prev_node;
-	unsigned int i = 0;
+	listst *c, *d;
+	unsigned int e = 0;
 
-	if (!head || !*head)
+	if (!a || !*a)
 		return (0);
 
-	if (!index)
+	if (!b)
 	{
-		node = *head;
-		*head = (*head)->next;
-		free(node->s);
-		free(node);
+		c = *a;
+		*a = (*a)->next;
+		free(c->s);
+		free(c);
 		return (1);
 	}
-	node = *head;
-	while (node)
+	c = *a;
+	while (c)
 	{
-		if (i == index)
+		if (e == b)
 		{
-			prev_node->next = node->next;
-			free(node->s);
-			free(node);
+			d->next = c->next;
+			free(c->s);
+			free(c);
 			return (1);
 		}
-		i++;
-		prev_node = node;
-		node = node->next;
+		e++;
+		d = c;
+		c = c->next;
 	}
 	return (0);
 }
 
 /**
- * lstfr - frees all nodes of a list
- * @head_ptr: address of pointer to head node
- *
- * Return: void
+ * lstfr - function
+ * @a: a
+ * Return: return
  */
-void lstfr(listst **head_ptr)
+void lstfr(listst **a)
 {
-	listst *node, *next_node, *head;
+	listst *b, *c, *d;
 
-	if (!head_ptr || !*head_ptr)
+	if (!a || !*a)
 		return;
-	head = *head_ptr;
-	node = head;
-	while (node)
+	d = *a;
+	b = d;
+	while (b)
 	{
-		next_node = node->next;
-		free(node->s);
-		free(node);
-		node = next_node;
+		c = b->next;
+		free(b->s);
+		free(b);
+		b = c;
 	}
-	*head_ptr = NULL;
+	*a = NULL;
 }
+
 

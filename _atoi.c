@@ -1,76 +1,76 @@
 #include "shell.h"
 
 /**
- * itractv - returns true if shell is itractv mode
- * @info: struct address
- *
- * Return: 1 if itractv mode, 0 otherwise
+ * itractv - function
+ * @a: a
+ * Return: return
  */
-int itractv(infot *info)
+int itractv(infot *a)
 {
-	return (isatty(STDIN_FILENO) && info->rdfd <= 2);
+	return (isatty(STDIN_FILENO) && a->rdfd <= 2);
 }
 
 /**
- * isdlm - checks if character is a delimeter
- * @c: the char to check
- * @delim: the delimeter string
- * Return: 1 if true, 0 if false
+ * isdlm - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-int isdlm(char c, char *delim)
+int isdlm(char a, char *b)
 {
-	while (*delim)
-		if (*delim++ == c)
+	while (*b)
+		if (*b++ == a)
 			return (1);
 	return (0);
 }
 
 /**
- *isaplph - checks for alphabetic character
- *@c: The character to input
- *Return: 1 if c is alphabetic, 0 otherwise
+ *isaplph - function
+ *@a: a
+ *Return: return
  */
 
-int isaplph(int c)
+int isaplph(int a)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+	if ((a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z'))
 		return (1);
 	else
 		return (0);
 }
 
 /**
- *atoii - converts a string to an integer
- *@s: the string to be converted
- *Return: 0 if no numbers in string, converted number otherwise
+ *atoii - function
+ *@a: a
+ *Return: return
  */
 
-int atoii(char *s)
+int atoii(char *a)
 {
-	int i, sign = 1, flag = 0, output;
-	unsigned int result = 0;
+	int b, c = 1, d = 0, e;
+	unsigned int f = 0;
 
-	for (i = 0;  s[i] != '\0' && flag != 2; i++)
+	for (b = 0;  a[b] != '\0' && d != 2; b++)
 	{
-		if (s[i] == '-')
-			sign *= -1;
+		if (a[b] == '-')
+			c *= -1;
 
-		if (s[i] >= '0' && s[i] <= '9')
+		if (a[b] >= '0' && a[b] <= '9')
 		{
-			flag = 1;
-			result *= 10;
-			result += (s[i] - '0');
+			d = 1;
+			f *= 10;
+			f += (a[b] - '0');
 		}
-		else if (flag == 1)
-			flag = 2;
+		else if (d == 1)
+			d = 2;
 	}
 
-	if (sign == -1)
-		output = -result;
+	if (c == -1)
+		e = -f;
 	else
-		output = result;
+		e = f;
 
-	return (output);
+	return (e);
 }
+
 
 

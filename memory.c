@@ -1,19 +1,19 @@
 #include "shell.h"
 
 /**
- * bfr - frees a pointer and NULLs the address
- * @ptr: address of the pointer to free
- *
- * Return: 1 if freed, otherwise 0.
+ * bfr - function
+ * @a: a
+ * Return: return
  */
-int bfr(void **ptr)
+int bfr(void **a)
 {
-	if (ptr && *ptr)
+	if (a && *a)
 	{
-		free(*ptr);
-		*ptr = NULL;
+		free(*a);
+		*a = NULL;
 		return (1);
 	}
 	return (0);
 }
+
 

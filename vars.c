@@ -1,155 +1,151 @@
 #include "shell.h"
 
 /**
- * chnis - test if current char in buffer is a chain delimeter
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
- *
- * Return: 1 if chain delimeter, 0 otherwise
+ * chnis - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-int chnis(infot *info, char *buf, size_t *p)
+int chnis(infot *a, char *b, size_t *c)
 {
-	size_t j = *p;
+	size_t d = *c;
 
-	if (buf[j] == '|' && buf[j + 1] == '|')
+	if (b[d] == '|' && b[d + 1] == '|')
 	{
-		buf[j] = 0;
-		j++;
-		info->typebuffercmd = CMD_OR;
+		b[d] = 0;
+		d++;
+		a->typebuffercmd = CMD_OR;
 	}
-	else if (buf[j] == '&' && buf[j + 1] == '&')
+	else if (b[d] == '&' && b[d + 1] == '&')
 	{
-		buf[j] = 0;
-		j++;
-		info->typebuffercmd = CMD_AND;
+		b[d] = 0;
+		d++;
+		a->typebuffercmd = CMD_AND;
 	}
-	else if (buf[j] == ';') /* found end of this command */
+	else if (b[d] == ';') 
 	{
-		buf[j] = 0; /* replace semicolon with null */
-		info->typebuffercmd = CMD_CHAIN;
+		b[d] = 0;
+		a->typebuffercmd = CMD_CHAIN;
 	}
 	else
 		return (0);
-	*p = j;
+	*c = d;
 	return (1);
 }
 
 /**
- * chnchk - checks we should continue chaining based on last status
- * @info: the parameter struct
- * @buf: the char buffer
- * @p: address of current position in buf
- * @i: starting position in buf
- * @len: length of buf
- *
- * Return: Void
+ * chnchk - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * @d: d
+ * @e: e
+ * Return: return
  */
-void chnchk(infot *info, char *buf, size_t *p, size_t i, size_t len)
+void chnchk(infot *a, char *b, size_t *c, size_t d, size_t e)
 {
-	size_t j = *p;
+	size_t f = *c;
 
-	if (info->typebuffercmd == CMD_AND)
+	if (a->typebuffercmd == CMD_AND)
 	{
-		if (info->sttus)
+		if (a->sttus)
 		{
-			buf[i] = 0;
-			j = len;
+			b[d] = 0;
+			f = e;
 		}
 	}
-	if (info->typebuffercmd == CMD_OR)
+	if (a->typebuffercmd == CMD_OR)
 	{
-		if (!info->sttus)
+		if (!a->sttus)
 		{
-			buf[i] = 0;
-			j = len;
+			b[d] = 0;
+			f = e;
 		}
 	}
 
-	*p = j;
+	*c = f;
 }
 
 /**
- * alsrplc - replaces an aliases in the tokenized string
- * @info: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
+ * alsrplc - function
+ * @a: a
+ * Return: return
  */
-int alsrplc(infot *info)
+int alsrplc(infot *a)
 {
-	int i;
-	listst *node;
-	char *p;
+	int b;
+	listst *c;
+	char *d;
 
-	for (i = 0; i < 10; i++)
+	for (b = 0; b < 10; b++)
 	{
-		node = ndstrtw(info->als, info->argv[0], '=');
-		if (!node)
+		c = ndstrtw(a->als, a->argv[0], '=');
+		if (!c)
 			return (0);
-		free(info->argv[0]);
-		p = str_chr(node->s, '=');
-		if (!p)
+		free(a->argv[0]);
+		d = str_chr(c->s, '=');
+		if (!d)
 			return (0);
-		p = duplstr(p + 1);
-		if (!p)
+		d = duplstr(d + 1);
+		if (!d)
 			return (0);
-		info->argv[0] = p;
+		a->argv[0] = d;
 	}
 	return (1);
 }
 
 /**
- * vrsrplc - replaces vars in the tokenized string
- * @info: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
+ * vrsrplc - function
+ * @a: a
+ * Return: return
  */
-int vrsrplc(infot *info)
+int vrsrplc(infot *a)
 {
-	int i = 0;
-	listst *node;
+	int b = 0;
+	listst *c;
 
-	for (i = 0; info->argv[i]; i++)
+	for (b = 0; a->argv[b]; b++)
 	{
-		if (info->argv[i][0] != '$' || !info->argv[i][1])
+		if (a->argv[b][0] != '$' || !a->argv[b][1])
 			continue;
 
-		if (!comparstr(info->argv[i], "$?"))
+		if (!comparstr(a->argv[b], "$?"))
 		{
-			rplcstrn(&(info->argv[i]),
-				duplstr(nbrconv(info->sttus, 10, 0)));
+			rplcstrn(&(a->argv[b]),
+				duplstr(nbrconv(a->sttus, 10, 0)));
 			continue;
 		}
-		if (!comparstr(info->argv[i], "$$"))
+		if (!comparstr(a->argv[b], "$$"))
 		{
-			rplcstrn(&(info->argv[i]),
+			rplcstrn(&(a->argv[b]),
 				duplstr(nbrconv(getpid(), 10, 0)));
 			continue;
 		}
-		node = ndstrtw(info->envir, &info->argv[i][1], '=');
-		if (node)
+		c = ndstrtw(a->envir, &a->argv[b][1], '=');
+		if (c)
 		{
-			rplcstrn(&(info->argv[i]),
-				duplstr(str_chr(node->s, '=') + 1));
+			rplcstrn(&(a->argv[b]),
+				duplstr(str_chr(c->s, '=') + 1));
 			continue;
 		}
-		rplcstrn(&info->argv[i], duplstr(""));
+		rplcstrn(&a->argv[b], duplstr(""));
 
 	}
 	return (0);
 }
 
 /**
- * rplcstrn - replaces string
- * @old: address of old string
- * @new: new string
- *
- * Return: 1 if replaced, 0 otherwise
+ * rplcstrn - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-int rplcstrn(char **old, char *new)
+int rplcstrn(char **a, char *b)
 {
-	free(*old);
-	*old = new;
+	free(*a);
+	*a = b;
 	return (1);
 }
+
 

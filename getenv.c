@@ -1,94 +1,91 @@
 #include "shell.h"
 
 /**
- * envirget - returns the string array copy of our environ
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- * Return: Always 0
+ * envirget - function
+ * @a: a
+ * Return: return
  */
-char **envirget(infot *info)
+char **envirget(infot *a)
 {
-	if (!info->envrn || info->chenv)
+	if (!a->envrn || a->chenv)
 	{
-		info->envrn = strlstto(info->envir);
-		info->chenv = 0;
+		a->envrn = strlstto(a->envir);
+		a->chenv = 0;
 	}
 
-	return (info->envrn);
+	return (a->envrn);
 }
 
 /**
- * ustenvrn - Remove an environment variable
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- *  Return: 1 on delete, 0 otherwise
- * @var: the string env var property
+ * ustenvrn - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-int ustenvrn(infot *info, char *var)
+int ustenvrn(infot *a, char *b)
 {
-	listst *node = info->envir;
-	size_t i = 0;
-	char *p;
+	listst *c = a->envir;
+	size_t d = 0;
+	char *e;
 
-	if (!node || !var)
+	if (!c || !b)
 		return (0);
 
-	while (node)
+	while (c)
 	{
-		p = strtwth(node->s, var);
-		if (p && *p == '=')
+		e = strtwth(c->s, b);
+		if (e && *e == '=')
 		{
-			info->chenv = indxnddl(&(info->envir), i);
-			i = 0;
-			node = info->envir;
+			a->chenv = indxnddl(&(a->envir), d);
+			d = 0;
+			c = a->envir;
 			continue;
 		}
-		node = node->next;
-		i++;
+		c = c->next;
+		d++;
 	}
-	return (info->chenv);
+	return (a->chenv);
 }
 
 /**
- * stenvrn - Initialize a new environment variable,
- *             or modify an existing one
- * @info: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- * @var: the string env var property
- * @value: the string env var value
- *  Return: Always 0
+ * stenvrn - function
+ * @a: a
+ * @b: b
+ * @c: c
+ *  Return: return
  */
-int stenvrn(infot *info, char *var, char *value)
+int stenvrn(infot *a, char *b, char *c)
 {
-	char *buf = NULL;
-	listst *node;
-	char *p;
+	char *d = NULL;
+	listst *e;
+	char *f;
 
-	if (!var || !value)
+	if (!b || !c)
 		return (0);
 
-	buf = malloc(lnstr(var) + lnstr(value) + 2);
-	if (!buf)
+	d = malloc(lnstr(b) + lnstr(c) + 2);
+	if (!d)
 		return (1);
-	cpystr(buf, var);
-	catstr(buf, "=");
-	catstr(buf, value);
-	node = info->envir;
-	while (node)
+	cpystr(d, b);
+	catstr(d, "=");
+	catstr(d, c);
+	e = a->envir;
+	while (e)
 	{
-		p = strtwth(node->s, var);
-		if (p && *p == '=')
+		f = strtwth(e->s, b);
+		if (f && *f == '=')
 		{
-			free(node->s);
-			node->s = buf;
-			info->chenv = 1;
+			free(e->s);
+			e->s = d;
+			a->chenv = 1;
 			return (0);
 		}
-		node = node->next;
+		e = e->next;
 	}
-	ndaddend(&(info->envir), buf, 0);
-	free(buf);
-	info->chenv = 1;
+	ndaddend(&(a->envir), d, 0);
+	free(d);
+	a->chenv = 1;
 	return (0);
 }
+
 

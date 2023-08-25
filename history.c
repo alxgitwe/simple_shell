@@ -1,144 +1,140 @@
 #include "shell.h"
 
 /**
- * gthistfl - gets the history file
- * @info: parameter struct
- *
- * Return: allocated string containg history file
+ * gthistfl - function
+ * @a: a
+ * Return: return
  */
 
-char *gthistfl(infot *info)
+char *gthistfl(infot *a)
 {
-	char *buf, *dir;
+	char *b, *c;
 
-	dir = gtenvir(info, "HOME=");
-	if (!dir)
+	c = gtenvir(a, "HOME=");
+	if (!c)
 		return (NULL);
-	buf = malloc(sizeof(char) * (lnstr(dir) + lnstr(HIST_FILE) + 2));
-	if (!buf)
+	b = malloc(sizeof(char) * (lnstr(c) + lnstr(HIST_FILE) + 2));
+	if (!b)
 		return (NULL);
-	buf[0] = 0;
-	cpystr(buf, dir);
-	catstr(buf, "/");
-	catstr(buf, HIST_FILE);
-	return (buf);
+	b[0] = 0;
+	cpystr(b, c);
+	catstr(b, "/");
+	catstr(b, HIST_FILE);
+	return (b);
 }
 
 /**
- * hstwrt - creates a file, or appends to an existing file
- * @info: the parameter struct
- *
- * Return: 1 on success, else -1
+ * hstwrt - function
+ * @a: a
+ * Return: return
  */
-int hstwrt(infot *info)
+int hstwrt(infot *a)
 {
-	ssize_t fd;
-	char *filename = gthistfl(info);
-	listst *node = NULL;
+	ssize_t b;
+	char *c = gthistfl(a);
+	listst *d = NULL;
 
-	if (!filename)
+	if (!c)
 		return (-1);
 
-	fd = open(filename, O_CREAT | O_TRUNC | O_RDWR, 0644);
-	free(filename);
-	if (fd == -1)
+	b = open(c, O_CREAT | O_TRUNC | O_RDWR, 0644);
+	free(c);
+	if (b == -1)
 		return (-1);
-	for (node = info->hsty; node; node = node->next)
+	for (d = a->hsty; d; d = d->next)
 	{
-		_putsfd(node->s, fd);
-		fdput('\n', fd);
+		_putsfd(d->s, b);
+		fdput('\n', b);
 	}
-	fdput(BUF_FLUSH, fd);
-	close(fd);
+	fdput(BUF_FLUSH, b);
+	close(b);
 	return (1);
 }
 
 /**
- * hstrd - reads history from file
- * @info: the parameter struct
- *
- * Return: histcount on success, 0 otherwise
+ * hstrd - function
+ * @a: a
+ * Return: return
  */
-int hstrd(infot *info)
+int hstrd(infot *a)
 {
-	int i, last = 0, linecount = 0;
-	ssize_t fd, rdlen, fsize = 0;
+	int b, c = 0, d = 0;
+	ssize_t e, f, g = 0;
 	struct stat st;
-	char *buf = NULL, *filename = gthistfl(info);
+	char *h = NULL, *k = gthistfl(a);
 
-	if (!filename)
+	if (!k)
 		return (0);
 
-	fd = open(filename, O_RDONLY);
-	free(filename);
-	if (fd == -1)
+	e = open(k, O_RDONLY);
+	free(k);
+	if (e == -1)
 		return (0);
-	if (!fstat(fd, &st))
-		fsize = st.st_size;
-	if (fsize < 2)
+	if (!fstat(e, &st))
+		g = st.st_size;
+	if (g < 2)
 		return (0);
-	buf = malloc(sizeof(char) * (fsize + 1));
-	if (!buf)
+	h = malloc(sizeof(char) * (g + 1));
+	if (!h)
 		return (0);
-	rdlen = read(fd, buf, fsize);
-	buf[fsize] = 0;
-	if (rdlen <= 0)
-		return (free(buf), 0);
-	close(fd);
-	for (i = 0; i < fsize; i++)
-		if (buf[i] == '\n')
+	f = read(e, h, g);
+	h[g] = 0;
+	if (f <= 0)
+		return (free(h), 0);
+	close(e);
+	for (b = 0; b < g; b++)
+		if (h[b] == '\n')
 		{
-			buf[i] = 0;
-			bldhistlst(info, buf + last, linecount++);
-			last = i + 1;
+			h[b] = 0;
+			bldhistlst(a, h + c, d++);
+			c = b + 1;
 		}
-	if (last != i)
-		bldhistlst(info, buf + last, linecount++);
-	free(buf);
-	info->hstcnt = linecount;
-	while (info->hstcnt-- >= HIST_MAX)
-		indxnddl(&(info->hsty), 0);
-	hstrnbr(info);
-	return (info->hstcnt);
+	if (c != b)
+		bldhistlst(a, h + c, d++);
+	free(h);
+	a->hstcnt = d;
+	while (a->hstcnt-- >= HIST_MAX)
+		indxnddl(&(a->hsty), 0);
+	hstrnbr(a);
+	return (a->hstcnt);
 }
 
 /**
- * bldhistlst - adds entry to a history linked list
- * @info: Structure containing potential arguments. Used to maintain
- * @buf: buffer
- * @linecount: the history linecount, histcount
- *
- * Return: Always 0
+ * bldhistlst - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-int bldhistlst(infot *info, char *buf, int linecount)
+int bldhistlst(infot *a, char *b, int c)
 {
-	listst *node = NULL;
+	listst *d = NULL;
 
-	if (info->hsty)
-		node = info->hsty;
-	ndaddend(&node, buf, linecount);
+	if (a->hsty)
+		d = a->hsty;
+	ndaddend(&d, b, c);
 
-	if (!info->hsty)
-		info->hsty = node;
+	if (!a->hsty)
+		a->hsty = d;
 	return (0);
 }
 
 /**
- * hstrnbr - renumbers the history linked list after changes
- * @info: Structure containing potential arguments. Used to maintain
- *
- * Return: the new histcount
+ * hstrnbr - function
+ * @a: a
+ * Return: return
  */
-int hstrnbr(infot *info)
+int hstrnbr(infot *a)
 {
-	listst *node = info->hsty;
-	int i = 0;
+	listst *b = a->hsty;
+	int c = 0;
 
-	while (node)
+	while (b)
 	{
-		node->n = i++;
-		node = node->next;
+		b->n = c++;
+		b = b->next;
 	}
-	return (info->hstcnt = i);
+	return (a->hstcnt = c);
 }
+
 

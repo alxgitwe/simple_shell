@@ -1,171 +1,165 @@
 #include "shell.h"
 
 /**
- * input_buf - buffers chained commands
- * @info: parameter struct
- * @buf: address of buffer
- * @len: address of len var
- *
- * Return: bytes read
+ * input_buf - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-ssize_t input_buf(infot *info, char **buf, size_t *len)
+ssize_t input_buf(infot *a, char **b, size_t *c)
 {
-	ssize_t r = 0;
-	size_t len_p = 0;
+	ssize_t d = 0;
+	size_t e = 0;
 
-	if (!*len) /* if nothing left in the buffer, fill it */
+	if (!*c)
 	{
-		/*bfr((void **)info->buffercmd);*/
-		free(*buf);
-		*buf = NULL;
+		free(*b);
+		*b = NULL;
 		signal(SIGINT, hndlrsnt);
 #if USE_GETLINE
-		r = getline(buf, &len_p, stdin);
+		d = getline(b, &e, stdin);
 #else
-		r = linegt(info, buf, &len_p);
+		d = linegt(a, b, &e);
 #endif
-		if (r > 0)
+		if (d > 0)
 		{
-			if ((*buf)[r - 1] == '\n')
+			if ((*b)[d - 1] == '\n')
 			{
-				(*buf)[r - 1] = '\0'; /* remove trailing newline */
-				r--;
+				(*b)[d - 1] = '\0';
+				d--;
 			}
-			info->flglncnt = 1;
-			rmvcmnt(*buf);
-			bldhistlst(info, *buf, info->hstcnt++);
-			/* if (str_chr(*buf, ';')) is this a command chain? */
+			a->flglncnt = 1;
+			rmvcmnt(*b);
+			bldhistlst(a, *b, a->hstcnt++);
 			{
-				*len = r;
-				info->buffercmd = buf;
+				*c = d;
+				a->buffercmd = b;
 			}
 		}
 	}
-	return (r);
+	return (d);
 }
 
 /**
- * gtinpt - gets a line minus the newline
- * @info: parameter struct
- *
- * Return: bytes read
+ * gtinpt - function
+ * @a: a
+ * Return: return
  */
-ssize_t gtinpt(infot *info)
+ssize_t gtinpt(infot *a)
 {
-	static char *buf; /* the ';' command chain buffer */
-	static size_t i, j, len;
-	ssize_t r = 0;
-	char **buf_p = &(info->arg), *p;
+	static char *b;
+	static size_t c, d, e;
+	ssize_t f = 0;
+	char **g = &(a->arg), *p;
 
 	_putchar(BUF_FLUSH);
-	r = input_buf(info, &buf, &len);
-	if (r == -1) /* EOF */
+	f = input_buf(a, &b, &e);
+	if (f == -1)
 		return (-1);
-	if (len)	/* we have commands left in the chain buffer */
+	if (e)
 	{
-		j = i; /* init new iterator to current buf position */
-		p = buf + i; /* get pointer for return */
+		d = c; 
+		p = b + c; 
 
-		chnchk(info, buf, &j, i, len);
-		while (j < len) /* iterate to semicolon or end */
+		chnchk(a, b, &d, c, e);
+		while (d < e)
 		{
-			if (chnis(info, buf, &j))
+			if (chnis(a, b, &d))
 				break;
-			j++;
+			d++;
 		}
 
-		i = j + 1; /* increment past nulled ';'' */
-		if (i >= len) /* reached end of buffer? */
+		c = d + 1;
+		if (c >= e)
 		{
-			i = len = 0; /* reset position and length */
-			info->typebuffercmd = CMD_NORM;
+			c = e = 0;
+			a->typebuffercmd = CMD_NORM;
 		}
 
-		*buf_p = p; /* pass back pointer to current command position */
-		return (lnstr(p)); /* return length of current command */
+		*g = p;
+		return (lnstr(p));
 	}
 
-	*buf_p = buf; /* else not a chain, pass back buffer from linegt() */
-	return (r); /* return length of buffer from linegt() */
+	*g = b;
+	return (f);
 }
 
 /**
- * read_buf - reads a buffer
- * @info: parameter struct
- * @buf: buffer
- * @i: size
- *
- * Return: r
+ * read_buf - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-ssize_t read_buf(infot *info, char *buf, size_t *i)
+ssize_t read_buf(infot *a, char *b, size_t *c)
 {
-	ssize_t r = 0;
+	ssize_t d = 0;
 
-	if (*i)
+	if (*c)
 		return (0);
-	r = read(info->rdfd, buf, READ_BUF_SIZE);
-	if (r >= 0)
-		*i = r;
-	return (r);
+	d = read(a->rdfd, b, READ_BUF_SIZE);
+	if (d >= 0)
+		*c = d;
+	return (d);
 }
 
 /**
- * linegt - gets the next line of input from STDIN
- * @info: parameter struct
- * @ptr: address of pointer to buffer, preallocated or NULL
- * @length: size of preallocated ptr buffer if not NULL
- *
- * Return: s
+ * linegt - function
+ * @a: a
+ * @b: b
+ * @d: d
+ * Return: return
  */
-int linegt(infot *info, char **ptr, size_t *length)
+int linegt(infot *a, char **b, size_t *d)
 {
-	static char buf[READ_BUF_SIZE];
-	static size_t i, len;
-	size_t k;
-	ssize_t r = 0, s = 0;
-	char *p = NULL, *new_p = NULL, *c;
+	static char e[READ_BUF_SIZE];
+	static size_t f, g;
+	size_t h;
+	ssize_t k = 0, m = 0;
+	char *q = NULL, *r = NULL, *t;
 
-	p = *ptr;
-	if (p && length)
-		s = *length;
-	if (i == len)
-		i = len = 0;
+	q = *b;
+	if (q && d)
+		m = *d;
+	if (f == g)
+		f = g = 0;
 
-	r = read_buf(info, buf, &len);
-	if (r == -1 || (r == 0 && len == 0))
+	k = read_buf(a, e, &g);
+	if (k == -1 || (k == 0 && g == 0))
 		return (-1);
 
-	c = str_chr(buf + i, '\n');
-	k = c ? 1 + (unsigned int)(c - buf) : len;
-	new_p = rloct(p, s, s ? s + k : k + 1);
-	if (!new_p)
-		return (p ? free(p), -1 : -1);
+	t = str_chr(e + f, '\n');
+	h = t ? 1 + (unsigned int)(t - e) : g;
+	r = rloct(q, m, m ? m + h : h + 1);
+	if (!r)
+		return (q ? free(q), -1 : -1);
 
-	if (s)
-		strn_cat(new_p, buf + i, k - i);
+	if (m)
+		strn_cat(r, e + f, h - f);
 	else
-		strn_cpy(new_p, buf + i, k - i + 1);
+		strn_cpy(r, e + f, h - f + 1);
 
-	s += k - i;
-	i = k;
-	p = new_p;
+	m += h - f;
+	f = h;
+	q = r;
 
-	if (length)
-		*length = s;
-	*ptr = p;
-	return (s);
+	if (d)
+		*d = m;
+	*b = q;
+	return (m);
 }
 
 /**
- * hndlrsnt - blocks ctrl-C
- * @sig_num: the signal number
- *
- * Return: void
+ * hndlrsnt - function
+ * @a: a
+ * Return: return
  */
-void hndlrsnt(__attribute__((unused))int sig_num)
+void hndlrsnt(__attribute__((unused))int a)
 {
 	_puts("\n");
 	_puts("$ ");
 	_putchar(BUF_FLUSH);
 }
+
 

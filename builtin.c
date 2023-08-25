@@ -1,98 +1,95 @@
 #include "shell.h"
 
 /**
- * mext - exits the shell
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: exits with a given exit status
- *         (0) if info.argv[0] != "exit"
+ * mext - function
+ * @a: a
+ * Return: return
  */
-int mext(infot *info)
+int mext(infot *a)
 {
-	int exitcheck;
+	int b;
 
-	if (info->argv[1])  /* If there is an exit arguement */
+	if (a->argv[1])
 	{
-		exitcheck = erratoii(info->argv[1]);
-		if (exitcheck == -1)
+		b = erratoii(a->argv[1]);
+		if (b == -1)
 		{
-			info->sttus = 2;
-			errprnt(info, "Illegal number: ");
-			errputs(info->argv[1]);
+			a->sttus = 2;
+			errprnt(a, "Illegal number: ");
+			errputs(a->argv[1]);
 			errputchar('\n');
 			return (1);
 		}
-		info->nmerr = erratoii(info->argv[1]);
+		a->nmerr = erratoii(a->argv[1]);
 		return (-2);
 	}
-	info->nmerr = -1;
+	a->nmerr = -1;
 	return (-2);
 }
 
 /**
- * mchd - changes the current directory of the process
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: Always 0
+ * mchd - function
+ * @a: a
+ *  Return: return
  */
-int mchd(infot *info)
+int mchd(infot *a)
 {
-	char *s, *dir, buffer[1024];
-	int chdir_ret;
+	char *b, *c, d[1024];
+	int e;
 
-	s = getcwd(buffer, 1024);
-	if (!s)
+	b = getcwd(d, 1024);
+	if (!b)
 		_puts("TODO: >>getcwd failure emsg here<<\n");
-	if (!info->argv[1])
+	if (!a->argv[1])
 	{
-		dir = gtenvir(info, "HOME=");
-		if (!dir)
-			chdir_ret = /* TODO: what should this be? */
-				chdir((dir = gtenvir(info, "PWD=")) ? dir : "/");
+		c = gtenvir(a, "HOME=");
+		if (!c)
+			e = /* */
+				chdir((c = gtenvir(a, "PWD=")) ? c : "/");
 		else
-			chdir_ret = chdir(dir);
+			e = chdir(c);
 	}
-	else if (comparstr(info->argv[1], "-") == 0)
+	else if (comparstr(a->argv[1], "-") == 0)
 	{
-		if (!gtenvir(info, "OLDPWD="))
+		if (!gtenvir(a, "OLDPWD="))
 		{
-			_puts(s);
+			_puts(b);
 			_putchar('\n');
 			return (1);
 		}
-		_puts(gtenvir(info, "OLDPWD=")), _putchar('\n');
-		chdir_ret = /* TODO: what should this be? */
-			chdir((dir = gtenvir(info, "OLDPWD=")) ? dir : "/");
+		_puts(gtenvir(a, "OLDPWD=")), _putchar('\n');
+		e = /*  */
+			chdir((c = gtenvir(a, "OLDPWD=")) ? c : "/");
 	}
 	else
-		chdir_ret = chdir(info->argv[1]);
-	if (chdir_ret == -1)
+		e = chdir(a->argv[1]);
+	if (e == -1)
 	{
-		errprnt(info, "can't cd to ");
-		errputs(info->argv[1]), errputchar('\n');
+		errprnt(a, "can't cd to ");
+		errputs(a->argv[1]), errputchar('\n');
 	}
 	else
 	{
-		stenvrn(info, "OLDPWD", gtenvir(info, "PWD="));
-		stenvrn(info, "PWD", getcwd(buffer, 1024));
+		stenvrn(a, "OLDPWD", gtenvir(a, "PWD="));
+		stenvrn(a, "PWD", getcwd(d, 1024));
 	}
 	return (0);
 }
 
 /**
- * mhlp - changes the current directory of the process
- * @info: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: Always 0
+ * mhlp - function
+ * @a: a
+ *  Return: return
  */
-int mhlp(infot *info)
+int mhlp(infot *a)
 {
-	char **arg_array;
+	char **b;
 
-	arg_array = info->argv;
+	b = a->argv;
 	_puts("help call works. Function not yet implemented \n");
 	if (0)
-		_puts(*arg_array); /* temp att_unused workaround */
+		_puts(*b);
 	return (0);
 }
+
 

@@ -1,63 +1,63 @@
 #include "shell.h"
 
 /**
- **stmem - fills memory with a constant byte
- *@s: the pointer to the memory area
- *@b: the byte to fill *s with
- *@n: the amount of bytes to be filled
- *Return: (s) a pointer to the memory area s
+ **stmem - function
+ *@a: a
+ *@b: b
+ *@c: c
+ *Return: return
  */
-char *stmem(char *s, char b, unsigned int n)
+char *stmem(char *a, char b, unsigned int c)
 {
-	unsigned int i;
+	unsigned int d;
 
-	for (i = 0; i < n; i++)
-		s[i] = b;
-	return (s);
+	for (d = 0; d < c; d++)
+		a[d] = b;
+	return (a);
 }
 
 /**
- * ffre - frees a string of strings
- * @pp: string of strings
+ * ffre - function
+ * @a: a
  */
-void ffre(char **pp)
+void ffre(char **a)
 {
-	char **a = pp;
+	char **b = a;
 
-	if (!pp)
+	if (!a)
 		return;
-	while (*pp)
-		free(*pp++);
-	free(a);
+	while (*a)
+		free(*a++);
+	free(b);
 }
 
 /**
- * rloct - reallocates a block of memory
- * @ptr: pointer to previous malloc'ated block
- * @old_size: byte size of previous block
- * @new_size: byte size of new block
- *
- * Return: pointer to da ol'block nameen.
+ * rloct - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-void *rloct(void *ptr, unsigned int old_size, unsigned int new_size)
+void *rloct(void *a, unsigned int b, unsigned int c)
 {
-	char *p;
+	char *d;
 
-	if (!ptr)
-		return (malloc(new_size));
-	if (!new_size)
-		return (free(ptr), NULL);
-	if (new_size == old_size)
-		return (ptr);
+	if (!a)
+		return (malloc(c));
+	if (!c)
+		return (free(a), NULL);
+	if (c == b)
+		return (a);
 
-	p = malloc(new_size);
-	if (!p)
+	d = malloc(c);
+	if (!d)
 		return (NULL);
 
-	old_size = old_size < new_size ? old_size : new_size;
-	while (old_size--)
-		p[old_size] = ((char *)ptr)[old_size];
-	free(ptr);
-	return (p);
+	b = b < c ? b : c;
+	while (b--)
+		d[b] = ((char *)a)[b];
+	free(a);
+	return (d);
 }
+
 

@@ -2,87 +2,83 @@
 
 /**
  * cpystr - copies a string
- * @dest: the destination
- * @src: the source
- *
- * Return: pointer to destination
+ * @a: a
+ * @b: b
+ * Return: return
  */
-char *cpystr(char *dest, char *src)
+char *cpystr(char *a, char *b)
 {
-	int i = 0;
+	int c = 0;
 
-	if (dest == src || src == 0)
-		return (dest);
-	while (src[i])
+	if (a == b || b == 0)
+		return (a);
+	while (b[c])
 	{
-		dest[i] = src[i];
-		i++;
+		a[c] = b[c];
+		c++;
 	}
-	dest[i] = 0;
-	return (dest);
+	a[c] = 0;
+	return (a);
 }
 
 /**
  * duplstr - duplicates a string
- * @str: the string to duplicate
- *
- * Return: pointer to the duplicated string
+ * @a: a
+ * Return: return
  */
-char *duplstr(const char *str)
+char *duplstr(const char *a)
 {
-	int length = 0;
-	char *ret;
+	int b = 0;
+	char *c;
 
-	if (str == NULL)
+	if (a == NULL)
 		return (NULL);
-	while (*str++)
-		length++;
-	ret = malloc(sizeof(char) * (length + 1));
-	if (!ret)
+	while (*a++)
+		b++;
+	c = malloc(sizeof(char) * (b + 1));
+	if (!c)
 		return (NULL);
-	for (length++; length--;)
-		ret[length] = *--str;
-	return (ret);
+	for (b++; b--;)
+		c[b] = *--a;
+	return (c);
 }
 
 /**
  *_puts - prints an input string
- *@str: the string to be printed
- *
- * Return: Nothing
+ *@a: a
+ * Return: return
  */
-void _puts(char *str)
+void _puts(char *a)
 {
-	int i = 0;
+	int b = 0;
 
-	if (!str)
+	if (!a)
 		return;
-	while (str[i] != '\0')
+	while (a[b] != '\0')
 	{
-		_putchar(str[i]);
-		i++;
+		_putchar(a[b]);
+		b++;
 	}
 }
 
 /**
  * _putchar - writes the character c to stdout
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * @a: a
+ * Return: return
  */
-int _putchar(char c)
+int _putchar(char a)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	static int b;
+	static char c[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (a == BUF_FLUSH || b >= WRITE_BUF_SIZE)
 	{
-		write(1, buf, i);
-		i = 0;
+		write(1, c, b);
+		b = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
+	if (a != BUF_FLUSH)
+		c[b++] = a;
 	return (1);
 }
+
 

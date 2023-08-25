@@ -1,86 +1,81 @@
 #include "shell.h"
 
 /**
- *errputs - prints an input string
- * @str: the string to be printed
- *
- * Return: Nothing
+ *errputs - function
+ * @a: a
+ * Return: return
  */
-void errputs(char *str)
+void errputs(char *a)
 {
-	int i = 0;
+	int b = 0;
 
-	if (!str)
+	if (!a)
 		return;
-	while (str[i] != '\0')
+	while (a[b] != '\0')
 	{
-		errputchar(str[i]);
-		i++;
+		errputchar(a[b]);
+		b++;
 	}
 }
 
 /**
- * errputchar - writes the character c to stderr
- * @c: The character to print
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * errputchar - function
+ * @a: a
+ * Return: return
  */
-int errputchar(char c)
+int errputchar(char a)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	static int b;
+	static char c[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (a == BUF_FLUSH || b >= WRITE_BUF_SIZE)
 	{
-		write(2, buf, i);
-		i = 0;
+		write(2, c, b);
+		b = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
+	if (a != BUF_FLUSH)
+		c[b++] = a;
 	return (1);
 }
 
 /**
- * fdput - writes the character c to given fd
- * @c: The character to print
- * @fd: The filedescriptor to write to
- *
- * Return: On success 1.
- * On error, -1 is returned, and errno is set appropriately.
+ * fdput - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-int fdput(char c, int fd)
+int fdput(char a, int b)
 {
-	static int i;
-	static char buf[WRITE_BUF_SIZE];
+	static int c;
+	static char d[WRITE_BUF_SIZE];
 
-	if (c == BUF_FLUSH || i >= WRITE_BUF_SIZE)
+	if (a == BUF_FLUSH || c >= WRITE_BUF_SIZE)
 	{
-		write(fd, buf, i);
-		i = 0;
+		write(b, d, c);
+		c = 0;
 	}
-	if (c != BUF_FLUSH)
-		buf[i++] = c;
+	if (a != BUF_FLUSH)
+		d[c++] = a;
 	return (1);
 }
 
 /**
- *_putsfd - prints an input string
- * @str: the string to be printed
- * @fd: the filedescriptor to write to
- *
- * Return: the number of chars put
+ *_putsfd - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-int _putsfd(char *str, int fd)
+int _putsfd(char *a, int b)
 {
-	int i = 0;
+	int c = 0;
 
-	if (!str)
+	if (!a)
 		return (0);
-	while (*str)
+	while (*a)
 	{
-		i += fdput(*str++, fd);
+		c += fdput(*a++, b);
 	}
-	return (i);
+	return (c);
 }
+
 

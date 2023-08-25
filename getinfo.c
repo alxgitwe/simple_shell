@@ -1,75 +1,76 @@
 #include "shell.h"
 
 /**
- * clrinf - initializes listst struct
- * @info: struct address
+ * clrinf - function
+ * @a: a
  */
-void clrinf(infot *info)
+void clrinf(infot *a)
 {
-	info->arg = NULL;
-	info->argv = NULL;
-	info->pth = NULL;
-	info->argc = 0;
+	a->arg = NULL;
+	a->argv = NULL;
+	a->pth = NULL;
+	a->argc = 0;
 }
 
 /**
- * infset - initializes listst struct
- * @info: struct address
- * @av: argument vector
+ * infset - function
+ * @a: a
+ * @b: b
  */
-void infset(infot *info, char **av)
+void infset(infot *a, char **b)
 {
-	int i = 0;
+	int c = 0;
 
-	info->namefile = av[0];
-	if (info->arg)
+	a->namefile = b[0];
+	if (a->arg)
 	{
-		info->argv = strtw(info->arg, " \t");
-		if (!info->argv)
+		a->argv = strtw(a->arg, " \t");
+		if (!a->argv)
 		{
 
-			info->argv = malloc(sizeof(char *) * 2);
-			if (info->argv)
+			a->argv = malloc(sizeof(char *) * 2);
+			if (a->argv)
 			{
-				info->argv[0] = duplstr(info->arg);
-				info->argv[1] = NULL;
+				a->argv[0] = duplstr(a->arg);
+				a->argv[1] = NULL;
 			}
 		}
-		for (i = 0; info->argv && info->argv[i]; i++)
+		for (c = 0; a->argv && a->argv[c]; c++)
 			;
-		info->argc = i;
+		a->argc = c;
 
-		alsrplc(info);
-		vrsrplc(info);
+		alsrplc(a);
+		vrsrplc(a);
 	}
 }
 
 /**
- * inffr - frees listst struct fields
- * @info: struct address
- * @all: true if freeing all fields
+ * inffr - function
+ * @a: a
+ * @b: b
  */
-void inffr(infot *info, int all)
+void inffr(infot *a, int b)
 {
-	ffre(info->argv);
-	info->argv = NULL;
-	info->pth = NULL;
-	if (all)
+	ffre(a->argv);
+	a->argv = NULL;
+	a->pth = NULL;
+	if (b)
 	{
-		if (!info->buffercmd)
-			free(info->arg);
-		if (info->envir)
-			lstfr(&(info->envir));
-		if (info->hsty)
-			lstfr(&(info->hsty));
-		if (info->als)
-			lstfr(&(info->als));
-		ffre(info->envrn);
-			info->envrn = NULL;
-		bfr((void **)info->buffercmd);
-		if (info->rdfd > 2)
-			close(info->rdfd);
+		if (!a->buffercmd)
+			free(a->arg);
+		if (a->envir)
+			lstfr(&(a->envir));
+		if (a->hsty)
+			lstfr(&(a->hsty));
+		if (a->als)
+			lstfr(&(a->als));
+		ffre(a->envrn);
+			a->envrn = NULL;
+		bfr((void **)a->buffercmd);
+		if (a->rdfd > 2)
+			close(a->rdfd);
 		_putchar(BUF_FLUSH);
 	}
 }
+
 

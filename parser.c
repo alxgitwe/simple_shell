@@ -1,18 +1,17 @@
 #include "shell.h"
 
 /**
- * cmdis - determines if a file is an executable command
- * @info: the info struct
- * @path: path to the file
- *
- * Return: 1 if true, 0 otherwise
+ * cmdis - function
+ * @a: a
+ * @b: b
+ * Return: return
  */
-int cmdis(infot *info, char *path)
+int cmdis(infot *a, char *b)
 {
 	struct stat st;
 
-	(void)info;
-	if (!path || stat(path, &st))
+	(void)a;
+	if (!b || stat(b, &st))
 		return (0);
 
 	if (st.st_mode & S_IFREG)
@@ -23,65 +22,64 @@ int cmdis(infot *info, char *path)
 }
 
 /**
- * charsdupl - duplicates characters
- * @pathstr: the PATH string
- * @start: starting index
- * @stop: stopping index
- *
- * Return: pointer to new buffer
+ * charsdupl - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-char *charsdupl(char *pathstr, int start, int stop)
+char *charsdupl(char *a, int b, int c)
 {
-	static char buf[1024];
-	int i = 0, k = 0;
+	static char buffer[1024];
+	int d = 0, e = 0;
 
-	for (k = 0, i = start; i < stop; i++)
-		if (pathstr[i] != ':')
-			buf[k++] = pathstr[i];
-	buf[k] = 0;
-	return (buf);
+	for (e = 0, d = b; d < c; d++)
+		if (a[d] != ':')
+			buffer[e++] = a[d];
+	buffer[e] = 0;
+	return (buffer);
 }
 
 /**
- * pthfnd - finds this cmd in the PATH string
- * @info: the info struct
- * @pathstr: the PATH string
- * @cmd: the cmd to find
- *
- * Return: full path of cmd if found or NULL
+ * pthfnd - function
+ * @a: a
+ * @b: b
+ * @c: c
+ * Return: return
  */
-char *pthfnd(infot *info, char *pathstr, char *cmd)
+char *pthfnd(infot *a, char *b, char *c)
 {
-	int i = 0, curr_pos = 0;
-	char *path;
+	int d = 0, e = 0;
+	char *f;
 
-	if (!pathstr)
+	if (!b)
 		return (NULL);
-	if ((lnstr(cmd) > 2) && strtwth(cmd, "./"))
+	if ((lnstr(c) > 2) && strtwth(c, "./"))
 	{
-		if (cmdis(info, cmd))
-			return (cmd);
+		if (cmdis(a, c))
+			return (c);
 	}
 	while (1)
 	{
-		if (!pathstr[i] || pathstr[i] == ':')
+		if (!b[d] || b[d] == ':')
 		{
-			path = charsdupl(pathstr, curr_pos, i);
-			if (!*path)
-				catstr(path, cmd);
+			f = charsdupl(b, e, d);
+			if (!*f)
+				catstr(f, c);
 			else
 			{
-				catstr(path, "/");
-				catstr(path, cmd);
+				catstr(f, "/");
+				catstr(f, c);
 			}
-			if (cmdis(info, path))
-				return (path);
-			if (!pathstr[i])
+			if (cmdis(a, f))
+				return (f);
+			if (!b[d])
 				break;
-			curr_pos = i;
+			e = d;
 		}
-		i++;
+		d++;
 	}
 	return (NULL);
 }
+
 

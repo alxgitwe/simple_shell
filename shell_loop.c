@@ -1,60 +1,55 @@
 #include "shell.h"
 
 /**
- * hsh - main shell loop
- * @info: the parameter & return info struct
- * @av: the argument vector from main()
- *
- * Return: 0 on success, 1 on error, or error code
+ * hsh - function
+ * @a: a
+ * @av: av
+ * Return: return
  */
-int hsh(infot *info, char **av)
+int hsh(infot *a, char **av)
 {
-	ssize_t r = 0;
-	int builtin_ret = 0;
+	ssize_t b = 0;
+	int c = 0;
 
-	while (r != -1 && builtin_ret != -2)
+	while (b != -1 && c != -2)
 	{
-		clrinf(info);
-		if (itractv(info))
+		clrinf(a);
+		if (itractv(a))
 			_puts("$ ");
 		errputchar(BUF_FLUSH);
-		r = gtinpt(info);
-		if (r != -1)
+		b = gtinpt(a);
+		if (b != -1)
 		{
-			infset(info, av);
-			builtin_ret = builtnfnd(info);
-			if (builtin_ret == -1)
-				cmdfnd(info);
+			infset(a, av);
+			c = builtnfnd(a);
+			if (c == -1)
+				cmdfnd(a);
 		}
-		else if (itractv(info))
+		else if (itractv(a))
 			_putchar('\n');
-		inffr(info, 0);
+		inffr(a, 0);
 	}
-	hstwrt(info);
-	inffr(info, 1);
-	if (!itractv(info) && info->sttus)
-		exit(info->sttus);
-	if (builtin_ret == -2)
+	hstwrt(a);
+	inffr(a, 1);
+	if (!itractv(a) && a->sttus)
+		exit(a->sttus);
+	if (c == -2)
 	{
-		if (info->nmerr == -1)
-			exit(info->sttus);
-		exit(info->nmerr);
+		if (a->nmerr == -1)
+			exit(a->sttus);
+		exit(a->nmerr);
 	}
-	return (builtin_ret);
+	return (c);
 }
 
 /**
- * builtnfnd - finds a builtin command
- * @info: the parameter & return info struct
- *
- * Return: -1 if builtin not found,
- *			0 if builtin executed successfully,
- *			1 if builtin found but not successful,
- *			-2 if builtin signals exit()
+ * builtnfnd - function
+ * @a: a
+ * Return: return
  */
-int builtnfnd(infot *info)
+int builtnfnd(infot *a)
 {
-	int i, built_in_ret = -1;
+	int b, c = -1;
 	tablebltn builtintbl[] = {
 		{"exit", mext},
 		{"env", menvr},
@@ -67,65 +62,63 @@ int builtnfnd(infot *info)
 		{NULL, NULL}
 	};
 
-	for (i = 0; builtintbl[i].tyype; i++)
-		if (comparstr(info->argv[0], builtintbl[i].tyype) == 0)
+	for (b = 0; builtintbl[b].tyype; b++)
+		if (comparstr(a->argv[0], builtintbl[b].tyype) == 0)
 		{
-			info->lncnt++;
-			built_in_ret = builtintbl[i].func(info);
+			a->lncnt++;
+			c = builtintbl[b].func(a);
 			break;
 		}
-	return (built_in_ret);
+	return (c);
 }
 
 /**
- * cmdfnd - finds a command in PATH
- * @info: the parameter & return info struct
- *
- * Return: void
+ * cmdfnd - function
+ * @a: a
+ * Return: return
  */
-void cmdfnd(infot *info)
+void cmdfnd(infot *a)
 {
-	char *path = NULL;
-	int i, k;
+	char *b = NULL;
+	int c, d;
 
-	info->pth = info->argv[0];
-	if (info->flglncnt == 1)
+	a->pth = a->argv[0];
+	if (a->flglncnt == 1)
 	{
-		info->lncnt++;
-		info->flglncnt = 0;
+		a->lncnt++;
+		a->flglncnt = 0;
 	}
-	for (i = 0, k = 0; info->arg[i]; i++)
-		if (!isdlm(info->arg[i], " \t\n"))
-			k++;
-	if (!k)
+	for (c = 0, d = 0; a->arg[c]; c++)
+		if (!isdlm(a->arg[c], " \t\n"))
+			d++;
+	if (!d)
 		return;
 
-	path = pthfnd(info, gtenvir(info, "PATH="), info->argv[0]);
-	if (path)
+	b = pthfnd(a, gtenvir(a, "PATH="), a->argv[0]);
+	if (b)
 	{
-		info->pth = path;
-		cmdfrk(info);
+		a->pth = b;
+		cmdfrk(a);
 	}
 	else
 	{
-		if ((itractv(info) || gtenvir(info, "PATH=")
-			|| info->argv[0][0] == '/') && cmdis(info, info->argv[0]))
-			cmdfrk(info);
-		else if (*(info->arg) != '\n')
+		if ((itractv(a) || gtenvir(a, "PATH=")
+			|| a->argv[0][0] == '/') && cmdis(a, a->argv[0]))
+			cmdfrk(a);
+		else if (*(a->arg) != '\n')
 		{
-			info->sttus = 127;
-			errprnt(info, "not found\n");
+			a->sttus = 127;
+			errprnt(a, "not found\n");
 		}
 	}
 }
 
 /**
- * cmdfrk - forks a an exec thread to run cmd
- * @info: the parameter & return info struct
- *
- * Return: void
+ * cmdfrk - function
+ * @a: a
+ * Return: return
  */
-void cmdfrk(infot *info)
+void cmdfrk(infot *a)
 {
 	pid_t child_pid;
 
@@ -137,24 +130,24 @@ void cmdfrk(infot *info)
 	}
 	if (child_pid == 0)
 	{
-		if (execve(info->pth, info->argv, envirget(info)) == -1)
+		if (execve(a->pth, a->argv, envirget(a)) == -1)
 		{
-			inffr(info, 1);
+			inffr(a, 1);
 			if (errno == EACCES)
 				exit(126);
 			exit(1);
 		}
-		/* TODO: PUT ERROR FUNCTION */
 	}
 	else
 	{
-		wait(&(info->sttus));
-		if (WIFEXITED(info->sttus))
+		wait(&(a->sttus));
+		if (WIFEXITED(a->sttus))
 		{
-			info->sttus = WEXITSTATUS(info->sttus);
-			if (info->sttus == 126)
-				errprnt(info, "Permission denied\n");
+			a->sttus = WEXITSTATUS(a->sttus);
+			if (a->sttus == 126)
+				errprnt(a, "Permission denied\n");
 		}
 	}
 }
+
 
